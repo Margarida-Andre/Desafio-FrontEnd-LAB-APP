@@ -10,7 +10,7 @@ export const theme = {
     blue: "#2B6AB5",
   },
   font:{
-     family: "Inter",
+     family: "Roboto",
      regular: 500,
      medium: 600,
      bold: 700

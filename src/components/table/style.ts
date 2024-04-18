@@ -1,9 +1,17 @@
 import styled from "styled-components";
 
+
+export const Content = styled.div`
+  width: 100%;
+  display: flex; 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const Table = styled.table`
   width: 80%;
 `;
-
 
 export const Thead = styled.thead`
   width: 100%;
@@ -42,4 +50,19 @@ export const ContainerButton = styled.div`
   justify-content: flex-end;
   align-items: center;
   margin-top: ${({theme}) => theme.size.s3};
+`;
+
+export const Title = styled.h2`
+  color: ${({theme})=> theme.color.black};
+  font-weight: ${({theme})=> theme.font.medium};
+  
+`;
+
+export const ContainerTitle = styled.div`
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem 0;
 `;

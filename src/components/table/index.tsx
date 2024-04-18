@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Button from '../Button';
 
 
-export default function Table({dataThead, dataBody}: table) {
+export default function Table({dataThead, dataBody, title}: table) {
 
   const {infraestruturas, updateInfraestrutura} = useInfraestruturas();
   const [inputs, setInputs] = useState<{ [key: string]: string }[]>([]);
@@ -59,6 +59,10 @@ export default function Table({dataThead, dataBody}: table) {
   return (
     <>
     <ToastContainer />
+    <S.Content>
+    <S.ContainerTitle>
+      <S.Title>{title}</S.Title>
+      </S.ContainerTitle>
     <S.Table>
       <S.Thead>
       <S.Tr>
@@ -93,6 +97,7 @@ export default function Table({dataThead, dataBody}: table) {
         </S.Tbody>
         
     </S.Table>
+    </S.Content>
     
     <S.ContainerButton>
       <Button children="Actualizar" onClick={()=>submit}/>

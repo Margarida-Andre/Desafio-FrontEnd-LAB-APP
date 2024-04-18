@@ -35,7 +35,13 @@ export function InfraestruturaProvider({ children }: InfraestruturasProviderProp
     });
     const { infraestrutura } = response.data;
 
-    setInfraestruturas([...infraestruturas, infraestrutura]);
+    setInfraestruturas(infraestruturas.map(item => {
+      if (item.id === infraestrutura.id) {
+        return infraestrutura;
+      } else {
+        return item;
+      }
+    }));
   }catch(error){
     console.error("Erro ao actualizar infraestrutura", error);
   }
