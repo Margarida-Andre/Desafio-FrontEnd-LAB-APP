@@ -3,11 +3,9 @@ import {createContext, useContext, useEffect, useState} from "react"
 import { infraestruturaProps } from "./type";
 import {api} from "../services/api";
 
-type InfraestruturaInput = Omit<infraestruturaProps, "createAt" | "updatedAt">;
-
 type InfraestruturaContextData = {
   infraestruturas: infraestruturaProps[];
-  updateInfraestrutura: (data: any) => Promise<void>;
+  updateInfraestrutura: (infraestruturaData: any) => Promise<void>;
 }
 
 type InfraestruturasProviderProps = {
@@ -27,21 +25,16 @@ export function InfraestruturaProvider({ children }: InfraestruturasProviderProp
       .then((response) => setInfraestruturas(response.data.infraestruturas));
   }, []);
 
-  async function  updateInfraestrutura(data: any){
+  async function  updateInfraestrutura(infraestruturaData: any){
     try{
-    const response = await api.put(`/infraestruturas/${data.id}`, {
-      ...data,
+    const response = await api.put(`/infraestruturas/${infraestruturaData.id}`, {
+      ...infraestruturaData,
       updatedAt: new Date(),
     });
+    
     const { infraestrutura } = response.data;
 
-    setInfraestruturas(infraestruturas.map(item => {
-      if (item.id === infraestrutura.id) {
-        return infraestrutura;
-      } else {
-        return item;
-      }
-    }));
+    setInfraestruturas([...infraestruturas, infraestrutura]);
   }catch(error){
     console.error("Erro ao actualizar infraestrutura", error);
   }

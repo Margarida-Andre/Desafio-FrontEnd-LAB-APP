@@ -21,6 +21,7 @@ export default function Table({dataThead, dataBody, title}: table) {
         id: infraestrutura.id,
         salas_funcionais: infraestrutura.salas_funcionais,
         salas_nao_funcionais: infraestrutura.salas_nao_funcionais,
+        somaSalas: (infraestrutura.salas_funcionais) + (infraestrutura.salas_nao_funcionais)
       }));
       setInputs(newInputs);
     }
@@ -32,6 +33,7 @@ export default function Table({dataThead, dataBody, title}: table) {
       ...newInputs[index],
       [fieldName]: value
     };
+
     setInputs(newInputs);
 
     salasValidation.validate(newInputs[index], { abortEarly: false })
@@ -48,13 +50,22 @@ export default function Table({dataThead, dataBody, title}: table) {
   const submit = useCallback(async () => {
     if (inputs) {
       try {
-        await updateInfraestrutura(inputs);
+       await updateInfraestrutura(inputs);
         toast.success("Item atualizado com sucesso!");
+        if (infraestruturas) {
+          const updatedTotal = inputs.map((infraestrutura) => ({
+            id: infraestrutura.id,
+            salas_funcionais: infraestrutura.salas_funcionais,
+            salas_nao_funcionais: infraestrutura.salas_nao_funcionais,
+            somaSalas: String(Number(infraestrutura.salas_funcionais) + Number(infraestrutura.salas_nao_funcionais))
+          }));
+          setInputs(updatedTotal);
+        }
       } catch (error) {
         toast.error("Erro ao atualizar item.");
       }
     }
-  }, [inputs, updateInfraestrutura]);
+  }, [inputs, updateInfraestrutura, infraestruturas]);
 
   return (
     <>
@@ -80,18 +91,22 @@ export default function Table({dataThead, dataBody, title}: table) {
             <S.Input 
           type="number" 
           value={inputs[index]?.salas_funcionais} 
-          onChange={(e) => handleInputChange(index, 'salas_funcionais', e.target.value)}  
-          disabled={item.salas_funcionais === 0}/>
+          onChange={(e) => 
+            handleInputChange(index, 'salas_funcionais', e.target.value)
+          }
+            disabled={item.salas_funcionais === 0}/>
           </S.Td>
           
           <S.Td>
           <S.Input 
           type="number" 
           value={inputs[index]?.salas_nao_funcionais} 
-          onChange={(e) => handleInputChange(index, 'salas_nao_funcionais', e.target.value)} 
+          onChange={(e) => 
+            handleInputChange(index, 'salas_nao_funcionais', e.target.value)
+          }
           disabled={item.salas_nao_funcionais === 0}/>
           </S.Td>
-          <S.Td><S.Input type="number" value={item.salas_funcionais + item.salas_nao_funcionais} disabled/></S.Td>
+          <S.Td><S.Input type="number" value={inputs[index]?.somaSalas} disabled={item.salas_funcionais + item.salas_nao_funcionais !== 0}/></S.Td>
           </S.Tr>
         ))}
         </S.Tbody>
@@ -100,7 +115,7 @@ export default function Table({dataThead, dataBody, title}: table) {
     </S.Content>
     
     <S.ContainerButton>
-      <Button children="Actualizar" onClick={()=>submit}/>
+      <Button children="Actualizar" onClick={submit}/>
     </S.ContainerButton>
     </>
   )
