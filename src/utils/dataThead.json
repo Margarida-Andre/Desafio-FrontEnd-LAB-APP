@@ -1,0 +1,20 @@
+{
+  "head": [
+  {
+    "id": 0,
+    "designacao": "Designação"
+  },
+  {
+    "id": 1,
+    "designacao": "Funcionais"
+  },
+  {
+    "id": 2,
+    "designacao": "Não Funcionais"
+  },
+  {
+    "id": 4,
+    "designacao": "Número Total"
+  }
+]
+}
